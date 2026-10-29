@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover events, explore experiences, and book tickets with VENTIQ.">
+    <title>VENTIQ | Discover Events. Book Experiences.</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="index.html" class="logo">VEN<span>TIQ</span></a>
+
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#events">Explore Events</a>
+            <a href="#categories">Categories</a>
+            <a href="admin.html">Admin Dashboard</a>
+            <a href="booking.html">Booking</a>
+        </nav>
+
+        <div class="nav-actions" id="navActions">
+    <a href="login.html" class="login-btn">Log In</a>
+    <a href="register.html" class="signup-btn">Sign Up</a>
+</div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <span class="eyebrow">YOUR NEXT EXPERIENCE STARTS HERE</span>
+
+                <h1>Discover Events.<br>
+                    <span>Book Experiences.</span>
+                </h1>
+
+                <p>
+                    From unforgettable concerts to inspiring workshops,
+                    find the events that make life extraordinary.
+                </p>
+
+                <a href="#events" class="primary-btn">Explore Events →</a>
+            </div>
+             <div>
+               <div class="hero-decoration">
+    
+<div class="hero-decoration">
+    <img
+        src="images/ventiq-hero.png"
+        alt="VENTIQ hero artwork"
+        class="hero-image"
+    >
+
+    <div class="hero-message">
+        <span>MAKE IT</span>
+        <strong>MEMORABLE.</strong>
+    </div>
+</div>
+
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <form class="search-bar" id="searchForm">
+                <span class="search-icon">⌕</span>
+                <input
+                    type="search"
+                    id="eventSearch"
+                    placeholder="Search concerts, festivals, workshops..."
+                    aria-label="Search events"
+                >
+                <button type="submit">Search Events</button>
+            </form>
+        </section>
+
+        <!-- Categories -->
+        <section class="section categories-section" id="categories">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">FIND YOUR VIBE</span>
+                    <h2>Explore Categories</h2>
+                </div>
+                <a href="#events" class="text-link">Explore all →</a>
+            </div>
+
+            <div class="category-grid">
+                <button class="category-card active" data-category="All">
+                    <span>✦</span>
+                    <strong>All Events</strong>
+                </button>
+
+                <button class="category-card" data-category="Concert">
+                    <span>♫</span>
+                    <strong>Concerts</strong>
+                </button>
+
+                <button class="category-card" data-category="Workshop">
+                    <span>◈</span>
+                    <strong>Workshops</strong>
+                </button>
+
+                <button class="category-card" data-category="Festival">
+                    <span>✺</span>
+                    <strong>Festivals</strong>
+                </button>
+
+                <button class="category-card" data-category="Conference">
+                    <span>▦</span>
+                    <strong>Conferences</strong>
+                </button>
+
+                <button class="category-card" data-category="Wedding">
+                    <span>♡</span>
+                    <strong>Weddings</strong>
+                </button>
+
+                <button class="category-card" data-category="College">
+                    <span>⌘</span>
+                    <strong>College Events</strong>
+                </button>
+            </div>
+        </section>
+
+        <!-- Featured Events -->
+        <section class="section events-section" id="events">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">HANDPICKED FOR YOU</span>
+                    <h2>Featured Events</h2>
+                    <p class="section-description">
+                        Experiences worth adding to your calendar.
+                    </p>
+                </div>
+            </div>
+
+            <div class="event-grid" id="eventGrid">
+
+                <article class="event-card"
+                    data-category="Concert"
+                    data-title="Midnight Music Festival">
+                    
+<div class="event-image concert-image">
+    <img
+        src="images/concert.png"
+        alt="Midnight Music Festival concert"
+        class="event-photo"
+    >
+    <span class="event-label">POPULAR</span>
+</div>
+
+                    <div class="event-info">
+                        <span class="event-type">CONCERT</span>
+                        <h3>Midnight Music Festival</h3>
+                        <p>◷ 15 November 2026</p>
+                        <p>⌖ Kolkata, West Bengal</p>
+                        <div class="event-bottom">
+                            <span>From <strong>₹999</strong></span>
+                            <a href="booking.html" class="book-btn">Book Now ↗</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="event-card"
+                    data-category="Workshop"
+                    data-title="Creative Minds Workshop">
+                    
+<div class="event-image workshop-image">
+    <img
+        src="images/workshop.png"
+        alt="Creative Minds Workshop"
+        class="event-photo"
+    >
+    <span class="event-label">LIMITED SEATS</span>
+</div>
+
+                    <div class="event-info">
+                        <span class="event-type">WORKSHOP</span>
+                        <h3>Creative Minds Workshop</h3>
+                        <p>◷ 21 November 2026</p>
+                        <p>⌖ Kolkata, West Bengal</p>
+                        <div class="event-bottom">
+                            <span>From <strong>₹499</strong></span>
+                            <a href="booking.html" class="book-btn">Book Now ↗</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="event-card"
+                    data-category="Festival"
+                    data-title="Colors of India Festival">
+                    
+<div class="event-image festival-image">
+    <img
+        src="images/festival.png"
+        alt="Colors of India Festival"
+        class="event-photo"
+    >
+    <span class="event-label">NEW EVENT</span>
+</div>
+
+                    <div class="event-info">
+                        <span class="event-type">FESTIVAL</span>
+                        <h3>Colors of India Festival</h3>
+                        <p>◷ 28 November 2026</p>
+                        <p>⌖ Durgapur, West Bengal</p>
+                        <div class="event-bottom">
+                            <span>From <strong>₹299</strong></span>
+                            <a href="booking.html" class="book-btn">Book Now ↗</a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <p id="noResults" class="no-results" hidden>
+                No events found. Try another search or category.
+            </p>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <span class="eyebrow">MAKE YOUR EVENT COUNT</span>
+            <h2>Every great memory<br>starts with a plan.</h2>
+            <p>Find your next unforgettable experience with VENTIQ.</p>
+            <a href="#events" class="primary-btn">Find Your Next Event →</a>
+        </section>
+    </main>
+
+<!-- VENTIQ ADMIN DASHBOARD -->
+<section class="admin-container" id="dashboard">
+    <section class="admin-welcome">
+        <p class="eyebrow">VENTIQ ADMINISTRATION</p>
+        <h1>Admin Dashboard</h1>
+        <p>Manage your events and monitor platform activity.</p>
+    </section>
+
+    <section class="admin-stats">
+        <div class="admin-stat-card">
+            <span>Total Events</span>
+            <h2 id="totalEvents">0</h2>
+            <p>Events listed</p>
+        </div>
+
+        <div class="admin-stat-card">
+            <span>Total Bookings</span>
+            <h2 id="totalBookings">0</h2>
+            <p>Customer reservations</p>
+        </div>
+
+        <div class="admin-stat-card">
+            <span>Registered Users</span>
+            <h2 id="totalUsers">0</h2>
+            <p>Platform accounts</p>
+        </div>
+
+        <div class="admin-stat-card">
+            <span>Total Revenue</span>
+            <h2 id="totalRevenue">₹0</h2>
+            <p>Booking revenue</p>
+        </div>
+    </section>
+
+    <section class="admin-panel">
+        <div class="admin-panel-heading">
+            <div>
+                <h2>Manage Events</h2>
+                <p>Add and organize upcoming events.</p>
+            </div>
+
+            <button class="btn btn-primary" id="addEventBtn">
+                + Add New Event
+            </button>
+        </div>
+
+        <div id="eventFormContainer" hidden>
+            <form id="adminEventForm" class="admin-event-form">
+                <label for="eventTitle">Event Name</label>
+                <input id="eventTitle" type="text" required>
+
+                <label for="eventCategory">Category</label>
+                <select id="eventCategory" required>
+                    <option value="">Select category</option>
+                    <option>Concert</option>
+                    <option>Workshop</option>
+                    <option>Festival</option>
+                    <option>Conference</option>
+                    <option>Wedding</option>
+                    <option>College</option>
+                </select>
+
+                <label for="eventDate">Event Date</label>
+                <input id="eventDate" type="date" required>
+
+                <label for="eventLocation">Location</label>
+                <input id="eventLocation" type="text" required>
+
+                <label for="eventPrice">Ticket Price (₹)</label>
+                <input id="eventPrice" type="number" min="0" required>
+
+                <div class="admin-form-actions">
+                    <button class="btn btn-primary" type="submit">
+                        Save Event
+                    </button>
+                    <button class="btn-secondary" type="button"
+                            id="cancelEventBtn">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="adminEventList"></tbody>
+            </table>
+        </div>
+    </section>
+</section>
+<!-- END ADMIN DASHBOARD -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="#home" class="logo">VEN<span>TIQ</span></a>
+        <p>Discover Events. Book Experiences.</p>
+        <p class="copyright">
+            © 2026 VENTIQ. All rights reserved.
+        </p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/admin.js"></script>
+    
+<script>
+    const navActions = document.getElementById("navActions");
+    const savedUser = localStorage.getItem("ventiqUser");
+
+    if (savedUser && navActions) {
+        try {
+            const user = JSON.parse(savedUser);
+
+            if (user && user.name) {
+                navActions.replaceChildren();
+
+                const welcome = document.createElement("span");
+                welcome.textContent = "Hi, " + user.name;
+                welcome.style.color = "#ffffff";
+                welcome.style.marginRight = "12px";
+
+                const logout = document.createElement("button");
+                logout.type = "button";
+                logout.textContent = "Log Out";
+                logout.className = "signup-btn";
+                logout.style.cursor = "pointer";
+                logout.style.marginTop = "0";
+
+                logout.addEventListener("click", function () {
+                    localStorage.removeItem("ventiqUser");
+                    window.location.href = "index.html";
+                });
+
+                navActions.append(welcome, logout);
+            }
+        } catch (error) {
+            localStorage.removeItem("ventiqUser");
+        }
+    }
+</script>
+
+</body>
+</html>

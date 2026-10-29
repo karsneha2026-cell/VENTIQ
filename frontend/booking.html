@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Event | VENTIQ</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #100d24;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .booking-container {
+            width: 100%;
+            max-width: 520px;
+            background: #1b1735;
+            border: 1px solid #39315e;
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        .brand {
+            color: #b7a4ff;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #c5c0d8;
+            text-align: center;
+            margin: 10px 0 28px;
+        }
+
+        h2 {
+            margin-bottom: 22px;
+            font-size: 23px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e4defc;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #49416d;
+            border-radius: 9px;
+            background: #100d24;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #a995ff;
+        }
+
+        .event-note {
+            background: #272044;
+            border-radius: 9px;
+            padding: 13px;
+            color: #d7cff7;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #9b83ff;
+            color: #17102e;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #b4a3ff;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 18px;
+            line-height: 1.6;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #c4b6ff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .booking-container {
+                padding: 24px 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="booking-container">
+        <div class="brand">VENTIQ</div>
+        <p class="subtitle">Discover Events. Book Experiences.</p>
+
+        <h2>Book Your Experience</h2>
+
+        <div class="event-note">
+            <strong>Event ID:</strong> <span id="eventIdDisplay">Not selected</span>
+            <br>
+            <strong>Ticket price:</strong> ₹<span id="ticketPrice">999</span>
+            <br>
+            <strong>Estimated total:</strong> ₹<span id="estimatedTotal">999</span>
+        </div>
+
+        <form id="bookingForm">
+            <div class="field">
+                <label for="eventId">Event ID</label>
+                <input
+                    type="number"
+                    id="eventId"
+                    name="event_id"
+                    min="1"
+                    value="1"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label for="customerName">Full Name</label>
+                <input
+                    type="text"
+                    id="customerName"
+                    name="customer_name"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label for="customerEmail">Email Address</label>
+                <input
+                    type="email"
+                    id="customerEmail"
+                    name="customer_email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="field">
+                <label for="tickets">Number of Tickets</label>
+                <input
+                    type="number"
+                    id="tickets"
+                    name="tickets"
+                    min="1"
+                    max="10"
+                    value="1"
+                    required
+                >
+            </div>
+
+            <button type="submit" id="bookButton">
+                Confirm Booking
+            </button>
+        </form>
+
+        <p id="message" role="status" aria-live="polite"></p>
+<p id="confirmation" role="status" aria-live="polite"
+   style="color: #7fffb2; font-weight: bold; margin-top: 12px;"></p>
+
+        <a href="index.html" class="back-link">
+            ← Back to Events
+        </a>
+    </main>
+
+    <script>
+        const API_URL = "http://127.0.0.1:5000";
+        const form = document.getElementById("bookingForm");
+        const eventIdInput = document.getElementById("eventId");
+        const ticketsInput = document.getElementById("tickets");
+        const ticketPriceDisplay = document.getElementById("ticketPrice");
+        const estimatedTotalDisplay = document.getElementById("estimatedTotal");
+        const message = document.getElementById("message");
+        const confirmation = document.getElementById("confirmation");
+        const bookButton = document.getElementById("bookButton");
+
+        let currentPrice = 999;
+        let currentEvent = null;
+
+        function updateTotal() {
+            const quantity = Number(ticketsInput.value) || 0;
+            estimatedTotalDisplay.textContent =
+                (currentPrice * quantity).toLocaleString("en-IN");
+        }
+
+        async function loadEvent() {
+            const eventId = Number(eventIdInput.value);
+
+            if (!Number.isInteger(eventId) || eventId < 1) {
+                currentEvent = null;
+                message.textContent = "Please enter a valid event ID.";
+                return;
+            }
+
+            message.textContent = "Loading event details...";
+
+            try {
+                const response = await fetch(`${API_URL}/api/events`);
+
+                if (!response.ok) {
+                    throw new Error("Could not load events.");
+                }
+
+                const data = await response.json();
+                const events = Array.isArray(data) ? data : data.events;
+
+                if (!Array.isArray(events)) {
+                    throw new Error("Unexpected event data from the server.");
+                }
+
+                currentEvent = events.find(
+                    event => Number(event.id) === eventId
+                );
+
+                if (!currentEvent) {
+                    message.textContent = "Event not found. Check the event ID.";
+                    document.getElementById("eventIdDisplay").textContent =
+                        "Not found";
+                    return;
+                }
+
+                currentPrice = Number(currentEvent.price);
+
+                document.getElementById("eventIdDisplay").textContent =
+                    `${currentEvent.title} (#${currentEvent.id})`;
+
+                ticketPriceDisplay.textContent =
+                    currentPrice.toLocaleString("en-IN");
+
+                updateTotal();
+                message.textContent = "";
+            } catch (error) {
+                message.textContent =
+                    "Could not connect to the server. Make sure Flask is running.";
+            }
+        }
+
+        eventIdInput.addEventListener("change", loadEvent);
+        ticketsInput.addEventListener("input", updateTotal);
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!currentEvent ||
+                Number(currentEvent.id) !== Number(eventIdInput.value)) {
+                message.textContent = "Please wait for valid event details.";
+                await loadEvent();
+                return;
+            }
+
+            const quantity = Number(ticketsInput.value);
+
+            if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+                message.textContent = "Choose between 1 and 10 tickets.";
+                return;
+            }
+
+            const booking = {
+                event_id: Number(eventIdInput.value),
+                customer_name: document.getElementById("customerName").value.trim(),
+                customer_email: document.getElementById("customerEmail").value.trim(),
+                tickets: quantity
+            };
+
+            if (!booking.customer_name || !booking.customer_email) {
+                message.textContent = "Please complete all fields.";
+                return;
+            }
+
+            bookButton.disabled = true;
+            bookButton.textContent = "Processing...";
+            message.textContent = "Submitting your booking...";
+
+            try {
+                const response = await fetch(`${API_URL}/api/bookings`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(booking)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.error || result.message || "Booking failed."
+                    );
+                }
+
+                confirmation.textContent =
+    `✓ ${result.message} Event: ${result.event}. ` +
+    `Tickets: ${result.tickets}. ` +
+    `Total: ₹${Number(result.total_price).toLocaleString("en-IN")}.`;
+
+                
+                form.reset();
+                eventIdInput.value = booking.event_id;
+                ticketsInput.value = 1;
+
+                // Refresh event details without clearing the success message
+                try {
+                    const eventsResponse = await fetch(`${API_URL}/api/events`);
+                    if (eventsResponse.ok) {
+                        const eventsData = await eventsResponse.json();
+                        const events = Array.isArray(eventsData)
+                            ? eventsData
+                            : eventsData.events;
+
+                        if (Array.isArray(events)) {
+                            currentEvent = events.find(
+                                item => Number(item.id) === booking.event_id
+                            );
+
+                            if (currentEvent) {
+                                currentPrice = Number(currentEvent.price);
+                                document.getElementById("eventIdDisplay").textContent =
+                                    `${currentEvent.title} (#${currentEvent.id})`;
+                                ticketPriceDisplay.textContent =
+                                    currentPrice.toLocaleString("en-IN");
+                                updateTotal();
+                            }
+                        }
+                    }
+                } catch (refreshError) {
+                    console.error("Could not refresh event details:", refreshError);
+                }
+
+            } catch (error) {
+                message.textContent = error.message ||
+                    "Booking failed. Please try again.";
+            } finally {
+                bookButton.disabled = false;
+                bookButton.textContent = "Confirm Booking";
+            }
+        });
+
+        loadEvent();
+    </script>
+</body>
+</html>
