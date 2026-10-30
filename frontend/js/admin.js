@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventForm = document.getElementById("adminEventForm");
     const eventList = document.getElementById("adminEventList");
 
-    const API_URL = "http://127.0.0.1:5000/api/events";
+    const API_URL = "https://ventiq-2qjv.onrender.com/api/events";
 
     async function loadEvents() {
         eventList.replaceChildren();
