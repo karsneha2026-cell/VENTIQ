@@ -250,7 +250,36 @@ def login():
 
     finally:
         connection.close()
+@app.route("/api/stats", methods=["GET"])
+def get_stats():
+    connection = get_db_connection()
 
+    try:
+        total_events = connection.execute(
+            "SELECT COUNT(*) FROM events"
+        ).fetchone()[0]
+
+        total_bookings = connection.execute(
+            "SELECT COUNT(*) FROM bookings"
+        ).fetchone()[0]
+
+        total_users = connection.execute(
+            "SELECT COUNT(*) FROM users"
+        ).fetchone()[0]
+
+        total_revenue = connection.execute(
+            "SELECT COALESCE(SUM(total_price), 0) FROM bookings"
+        ).fetchone()[0]
+
+        return jsonify({
+            "total_events": total_events,
+            "total_bookings": total_bookings,
+            "total_users": total_users,
+            "total_revenue": total_revenue
+        })
+
+    finally:
+        connection.close()
 if __name__ == "__main__":
     app.run(debug=True)
 

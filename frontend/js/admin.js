@@ -12,7 +12,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const eventList = document.getElementById("adminEventList");
 
     const API_URL = "https://ventiq-2qjv.onrender.com/api/events";
+    const STATS_URL = "https://ventiq-2qjv.onrender.com/api/stats";
+    async function loadStats() {
+    try {
+        const response = await fetch(STATS_URL);
 
+        if (!response.ok) {
+            throw new Error("Could not load dashboard statistics.");
+        }
+
+        const stats = await response.json();
+
+        document.getElementById("totalEvents").textContent =
+            stats.total_events;
+
+        document.getElementById("totalBookings").textContent =
+            stats.total_bookings;
+
+        document.getElementById("totalUsers").textContent =
+            stats.total_users;
+
+        document.getElementById("totalRevenue").textContent =
+            `₹${stats.total_revenue}`;
+    } catch (error) {
+        console.error("Dashboard statistics error:", error);
+    }
+ }
     async function loadEvents() {
         eventList.replaceChildren();
 
@@ -135,4 +160,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     loadEvents();
+    loadStats();
 });
